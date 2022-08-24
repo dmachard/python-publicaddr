@@ -9,7 +9,7 @@ on:
       - main
       
 jobs:
-  dnsdist-e2e:
+  publicaddr:
     runs-on: ubuntu-20.04
 
     strategy:
