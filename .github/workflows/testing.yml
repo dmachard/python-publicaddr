@@ -25,4 +25,7 @@ jobs:
     - name: Run Python tests
       run: |
         sudo python3 -m pip install -r requirements.txt
-        sudo python3 -m unittest -v discover tests/
+        sudo python3 -m unittest tests.test_google
+        sudo python3 -m unittest tests.test_akamai
+        sudo python3 -m unittest tests.test_cloudflare
+        sudo python3 -m unittest tests.test_opendns
