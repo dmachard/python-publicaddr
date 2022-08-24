@@ -14,7 +14,7 @@ The following one are supported:
 
 ## Installation
 
-This module can be installed from [pypi](https://pypi.org/project/python_publicaddr/) website
+This module can be installed from [pypi](https://pypi.org/project/publicaddr/) website
 
 ```bash
 pip install publicaddr
