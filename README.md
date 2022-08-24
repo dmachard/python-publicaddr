@@ -16,13 +16,13 @@ The following one are supported:
 
 This module can be installed from [pypi](https://pypi.org/project/python_publicaddr/) website
 
-```python
+```bash
 pip install publicaddr
 ```
 
 ## Usage
 
-```
+```python
 import publicaddr
 
 publicaddr.getall()
@@ -31,7 +31,7 @@ publicaddr.getall()
 
 ## Provider
 
-```
+```python
 import publicaddr
 from publicaddr import PROVIDER_GOOGLE, PROVIDER_OPENDNS, PROVIDER_CLOUDFLARE, PROVIDER_AKAMAI
 
@@ -43,6 +43,6 @@ publicaddr.getall(PROVIDER_AKAMAI)
 
 Run test units
 
-```
+```bash
 python3 -m unittest -v discover tests/
 ```
