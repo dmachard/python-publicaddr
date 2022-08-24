@@ -1,0 +1,32 @@
+name: Testing
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+      
+jobs:
+  dnsdist-e2e:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        dnsdist: [ "dnsdist-16", "dnsdist-17" ]
+        python: [ "3.8", "3.9", "3.10" ]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python}}
+
+    - name: Install Python requirements
+      run: |
+        sudo python3 -m pip install -r requirements.txt 
+
+    - name: Run Python tests
+      run: |
+        sudo python3 -m unittest -v discover tests/
