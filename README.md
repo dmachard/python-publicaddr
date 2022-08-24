@@ -20,7 +20,7 @@ This module can be installed from [pypi](https://pypi.org/project/python_publica
 pip install publicaddr
 ```
 
-## Usage
+## Basic Usage
 
 ```python
 import publicaddr
@@ -28,8 +28,18 @@ import publicaddr
 publicaddr.getall()
 {'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x'}
 ```
+## Get IPv4 only
+
+```python
+import publicaddr
+
+publicaddr.get(ipversion=4)
+'x.x.x.x'
+```
 
 ## Provider
+
+Example to use the provider Akamai instead of Google (the default one)
 
 ```python
 import publicaddr
