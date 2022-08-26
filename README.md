@@ -5,8 +5,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/publicaddr)
 
-Simple python module for getting your public IP V4 and V6 from several providers in *random* mode.
-The following one are supported:
+Simple python module for getting your **public IP V4 and V6** from several providers in **random** mode.
+
+Providers supported:
 - Google (DNS)
 - Cloudflare (DNS)
 - OpenDNS (DNS)
