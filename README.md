@@ -7,7 +7,7 @@
 
 Simple python module for getting your **public IP V4 and V6** from several providers in **random** mode.
 
-Providers supported:
+Supported providers:
 - Google (DNS)
 - Cloudflare (DNS)
 - OpenDNS (DNS)
