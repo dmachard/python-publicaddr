@@ -46,7 +46,7 @@ import publicaddr
 from publicaddr import PROVIDER_GOOGLE, PROVIDER_OPENDNS, PROVIDER_CLOUDFLARE, PROVIDER_AKAMAI
 
 publicaddr.getall(PROVIDER_AKAMAI)
-{'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x'}
+{'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'Google'}
 ```
 
 ## For developpers
