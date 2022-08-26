@@ -1,5 +1,8 @@
 
 import dns.resolver
+import dns.exception
+
+NAME = "OpenDNS"
 
 # resolver1.opendns.com, resolver2.opendns.com
 dns_servers = {
@@ -19,7 +22,12 @@ def _resolv_addr(nameservers=[], qname="myip.opendns.com", rdtype="A"):
     return answers[0].to_text()
 
 def lookup(ipversion, ipproto):
-    if ipversion == 4:
-        return _resolv_addr(nameservers=dns_servers["ip4"], rdtype="A")
-    if ipversion == 6:
-        return _resolv_addr(nameservers=dns_servers["ip6"], rdtype="AAAA")
+    ret = None
+    try:
+        if ipversion == 4:
+            return _resolv_addr(nameservers=dns_servers["ip4"], rdtype="A")
+        if ipversion == 6:
+            return _resolv_addr(nameservers=dns_servers["ip6"], rdtype="AAAA")
+    except dns.exception.DNSException:
+        pass
+    return ret

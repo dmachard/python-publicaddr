@@ -1,5 +1,8 @@
 
 import dns.resolver
+import dns.exception
+
+NAME = "CloudFlare"
 
 # resolver1.opendns.com, resolver2.opendns.com
 dns_servers = {
@@ -18,7 +21,12 @@ def _resolv_addr(nameservers=[], qname="whoami.cloudflare", rdtype="TXT", rdclas
     return answers[0].strings[0].decode()
 
 def lookup(ipversion, ipproto):
-    if ipversion == 4:
-        return _resolv_addr(nameservers=dns_servers["ip4"])
-    if ipversion == 6:
-        return _resolv_addr(nameservers=dns_servers["ip6"])
+    ret = None
+    try:
+        if ipversion == 4:
+            return _resolv_addr(nameservers=dns_servers["ip4"])
+        if ipversion == 6:
+            return _resolv_addr(nameservers=dns_servers["ip6"])
+    except dns.exception.DNSException:
+        pass
+    return ret

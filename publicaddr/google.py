@@ -1,5 +1,8 @@
 
 import dns.resolver
+import dns.exception
+
+NAME = "Google"
 
  # ns1.google.com, ns2.google.com, ns3.google.com
 dns_servers = {
@@ -16,7 +19,12 @@ def _resolv_addr(nameservers=[], qname="o-o.myaddr.google.com", rdtype="TXT" ):
     return answers[0].strings[0].decode()
 
 def lookup(ipversion, ipproto):
-    if ipversion == 4:
-        return _resolv_addr(nameservers=dns_servers["ip4"])
-    if ipversion == 6:
-        return _resolv_addr(nameservers=dns_servers["ip6"])
+    ret = None
+    try:
+        if ipversion == 4:
+            return _resolv_addr(nameservers=dns_servers["ip4"])
+        if ipversion == 6:
+            return _resolv_addr(nameservers=dns_servers["ip6"])
+    except dns.exception.DNSException:
+        pass
+    return ret

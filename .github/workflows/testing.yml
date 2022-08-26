@@ -25,7 +25,7 @@ jobs:
     - name: Run Python tests
       run: |
         sudo python3 -m pip install -r requirements.txt
-        sudo python3 -m unittest tests.test_google.TestGoogle.test_get_ip4
-        sudo python3 -m unittest tests.test_akamai.TestAkamai.test_get_ip4
-        sudo python3 -m unittest tests.test_cloudflare.TestCloudflare.test_get_ip4
-        sudo python3 -m unittest tests.test_opendns.TestOpenDNS.test_get_ip4
+        sudo python3 -m unittest tests.test_google
+        sudo python3 -m unittest tests.test_akamai
+        sudo python3 -m unittest tests.test_cloudflare
+        sudo python3 -m unittest tests.test_opendns

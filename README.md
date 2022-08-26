@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/publicaddr)
 
-Simple python module for getting your public IP V4 and V6 with several providers support.
+Simple python module for getting your public IP V4 and V6 from several providers in *random* mode.
 The following one are supported:
 - Google (DNS)
 - Cloudflare (DNS)
@@ -26,7 +26,7 @@ pip install publicaddr
 import publicaddr
 
 publicaddr.getall()
-{'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x'}
+{'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'Google'}
 ```
 ## Get IPv4 only
 
@@ -34,12 +34,12 @@ publicaddr.getall()
 import publicaddr
 
 publicaddr.get(ipversion=4)
-'x.x.x.x'
+{'ip': 'x.x.x.x', 'provider': 'Akamai'}
 ```
 
-## Provider
+## Select a specifc provider
 
-Example to use the provider Akamai instead of Google (the default one)
+Example to use the provider Akamai instead of random one.
 
 ```python
 import publicaddr
