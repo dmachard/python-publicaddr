@@ -1,4 +1,6 @@
 
+import logging
+
 import dns.resolver
 import dns.exception
 
@@ -18,13 +20,13 @@ def _resolv_addr(nameservers=[], qname="o-o.myaddr.google.com", rdtype="TXT" ):
     answers = dnsresolv.resolve(qname, rdtype)
     return answers[0].strings[0].decode()
 
-def lookup(ipversion, ipproto):
+def lookup(ipversion, ipproto, debug):
     ret = None
     try:
         if ipversion == 4:
             return _resolv_addr(nameservers=dns_servers["ip4"])
         if ipversion == 6:
             return _resolv_addr(nameservers=dns_servers["ip6"])
-    except dns.exception.DNSException:
-        pass
+    except dns.exception.DNSException as e:
+        if debug: logging.debug("google unable to get ip info - %s" % e)
     return ret

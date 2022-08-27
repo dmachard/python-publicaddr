@@ -7,7 +7,7 @@ def set_providers(providers):
     global _providers 
     _providers = providers
 
-def pickone():
+def pickone(debug):
     global _providers 
 
     # pick provider

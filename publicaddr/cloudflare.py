@@ -1,8 +1,9 @@
 
 import dns.resolver
 import dns.exception
+import logging
 
-NAME = "CloudFlare"
+NAME = "Cloudflare"
 
 # resolver1.opendns.com, resolver2.opendns.com
 dns_servers = {
@@ -20,13 +21,13 @@ def _resolv_addr(nameservers=[], qname="whoami.cloudflare", rdtype="TXT", rdclas
     answers = dnsresolv.resolve(qname, rdtype, rdclass)
     return answers[0].strings[0].decode()
 
-def lookup(ipversion, ipproto):
+def lookup(ipversion, ipproto, debug):
     ret = None
     try:
         if ipversion == 4:
             return _resolv_addr(nameservers=dns_servers["ip4"])
         if ipversion == 6:
             return _resolv_addr(nameservers=dns_servers["ip6"])
-    except dns.exception.DNSException:
-        pass
+    except dns.exception.DNSException as e:
+        if debug: logging.debug("cloudflare unable to get ip info - %s" % e)
     return ret

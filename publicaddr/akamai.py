@@ -1,5 +1,6 @@
 
 import requests
+import logging
 
 NAME = "Akamai"
 
@@ -10,13 +11,13 @@ http_servers = {
     "ip6": "http://ipv6.whatismyip.akamai.com/",
 }
 
-def lookup(ipversion, ipproto):
+def lookup(ipversion, ipproto, debug):
     ret = None
     try:
         if ipversion == 4:
             ret = requests.get(http_servers["ip4"], timeout=timeout).text.rstrip()
         if ipversion == 6:
             ret = requests.get(http_servers["ip6"], timeout=timeout).text.rstrip()
-    except requests.exceptions.RequestException:
-        pass
+    except requests.exceptions.RequestException as e:
+        if debug: logging.debug("akamai unable to get ip info - %s" % e)
     return ret
