@@ -5,6 +5,7 @@ import dns.resolver
 import dns.exception
 
 NAME = "Google"
+timeout = 1
 
  # ns1.google.com, ns2.google.com, ns3.google.com
 dns_servers = {
@@ -15,6 +16,8 @@ dns_servers = {
 def _resolv_addr(nameservers=[], qname="o-o.myaddr.google.com", rdtype="TXT" ):
     dnsresolv = dns.resolver.Resolver(configure=False)
     dnsresolv.nameservers = nameservers
+    dnsresolv.timeout = timeout
+    dnsresolv.lifetime = timeout
 
     # make dns resolution
     answers = dnsresolv.resolve(qname, rdtype)

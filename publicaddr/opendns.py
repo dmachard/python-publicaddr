@@ -5,6 +5,7 @@ import dns.resolver
 import dns.exception
 
 NAME = "OpenDNS"
+timeout = 1
 
 # resolver1.opendns.com, resolver2.opendns.com
 dns_servers = {
@@ -18,7 +19,9 @@ dns_servers = {
 def _resolv_addr(nameservers=[], qname="myip.opendns.com", rdtype="A"):
     dnsresolv = dns.resolver.Resolver(configure=False)
     dnsresolv.nameservers = nameservers
-
+    dnsresolv.timeout = timeout
+    dnsresolv.lifetime = timeout
+    
     # make dns resolution
     answers = dnsresolv.resolve(qname, rdtype)
     return answers[0].to_text()

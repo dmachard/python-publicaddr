@@ -4,6 +4,7 @@ import dns.exception
 import logging
 
 NAME = "Cloudflare"
+timeout = 1
 
 # resolver1.opendns.com, resolver2.opendns.com
 dns_servers = {
@@ -16,7 +17,9 @@ dns_servers = {
 def _resolv_addr(nameservers=[], qname="whoami.cloudflare", rdtype="TXT", rdclass="CH"  ):
     dnsresolv = dns.resolver.Resolver(configure=False)
     dnsresolv.nameservers = nameservers
-
+    dnsresolv.timeout = timeout
+    dnsresolv.lifetime = timeout
+    
     # make dns resolution
     answers = dnsresolv.resolve(qname, rdtype, rdclass)
     return answers[0].strings[0].decode()
