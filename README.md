@@ -38,7 +38,7 @@ publicaddr.get(ipversion=4)
 {'ip': 'x.x.x.x', 'provider': 'Akamai'}
 ```
 
-## Select a specifc provider
+## Select a specific provider
 
 Example to use the provider Akamai instead of random one.
 
