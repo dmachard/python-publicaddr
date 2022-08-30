@@ -21,7 +21,7 @@ This module can be installed from [pypi](https://pypi.org/project/publicaddr/) w
 pip install publicaddr
 ```
 
-## Lookup
+## Lookup for IPv4 and v6
 
 Lookup for your public IPs from random providers.
 
