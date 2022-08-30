@@ -2,6 +2,14 @@ import unittest
 import publicaddr
 
 class TestAkamai(unittest.TestCase):
+    def test_get_dns_ip4(self):
+        """get dns ip4"""
+        ip = publicaddr.get(provider=publicaddr.PROVIDER_AKAMAI, ipversion=publicaddr.IP_V4)
+        self.assertNotEqual(ip, "")
+    def test_get_dns_ip6(self):
+        """get dns ip6"""
+        ip = publicaddr.get(provider=publicaddr.PROVIDER_AKAMAI, ipversion=publicaddr.IP_V6)
+        self.assertNotEqual(ip, "")
     def test_get_ip4_http(self):
         """get dns ip4"""
         ip = publicaddr.get(provider=publicaddr.PROVIDER_AKAMAI, ipversion=publicaddr.IP_V4, ipproto=publicaddr.PROTO_HTTP)

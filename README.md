@@ -11,7 +11,7 @@ Supported providers:
 - Google (DNS & HTTP)
 - Cloudflare (DNS)
 - OpenDNS (DNS)
-- Akamai (HTTP)
+- Akamai (DNS & HTTP)
 
 ## Installation
 
