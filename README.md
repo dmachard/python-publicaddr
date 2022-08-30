@@ -8,7 +8,7 @@
 Simple python module for getting your **public IP V4 and V6** from several providers in **random** mode.
 
 Supported providers:
-- Google (DNS)
+- Google (DNS & HTTP)
 - Cloudflare (DNS)
 - OpenDNS (DNS)
 - Akamai (HTTP)
@@ -29,7 +29,8 @@ Lookup for your public IPs from random providers.
 import publicaddr
 
 publicaddr.lookup()
-{'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'OpenDNS', 'proto': 'DNS', 'duration': '0.037'}
+{'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'OpenDNS',
+'proto': 'DNS', 'duration': '0.037'}
 ```
 ## Get IPv4 only
 
