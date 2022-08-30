@@ -21,33 +21,47 @@ This module can be installed from [pypi](https://pypi.org/project/publicaddr/) w
 pip install publicaddr
 ```
 
-## Basic Usage
+## Lookup
+
+Lookup for your public IPs from random providers.
 
 ```python
 import publicaddr
 
-publicaddr.getall()
-{'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'Google'}
+publicaddr.lookup()
+{'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'OpenDNS', 'proto': 'DNS', 'duration': '0.037'}
 ```
 ## Get IPv4 only
+
+Get your public IPv4 with default provider (Google with DNS protocol).
 
 ```python
 import publicaddr
 
 publicaddr.get(ipversion=4)
-{'ip': 'x.x.x.x', 'provider': 'Akamai'}
+{'ip': 'x.x.x.x', 'duration': '0.025'}
 ```
 
-## Select a specific provider
+## Get IPv6 only
 
-Example to use the provider Akamai instead of random one.
+Get your public IPv6 with default provider (Google with DNS protocol).
 
 ```python
 import publicaddr
-from publicaddr import PROVIDER_GOOGLE, PROVIDER_OPENDNS, PROVIDER_CLOUDFLARE, PROVIDER_AKAMAI
 
-publicaddr.getall(PROVIDER_AKAMAI)
-{'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'Google'}
+publicaddr.get(ipversion=6)
+{'ip': 'x:x:x:x:x:x:x:x', 'duration': '0.063'}
+```
+
+## Get IP with specific provider
+
+Example to use the provider Cloudflare instead of the default one.
+
+```python
+from publicaddr import get, PROVIDER_CLOUDFLARE, IP_V6, PROTO_DNS
+
+myip = get(provider=PROVIDER_CLOUDFLARE, ipversion=IP_V6, ipproto=PROTO_DNS)
+{'ip': 'x:x:x:x:x:x:x:x', 'duration': '0.020'}
 ```
 
 ## For developpers

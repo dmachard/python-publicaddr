@@ -1,59 +1,73 @@
 
 import logging
 import sys
+import time
 
-from publicaddr import google
-from publicaddr import opendns
-from publicaddr import cloudflare
-from publicaddr import akamai
+from publicaddr import google as PROVIDER_GOOGLE
+from publicaddr import opendns as PROVIDER_OPENDNS
+from publicaddr import cloudflare as PROVIDER_CLOUDFLARE
+from publicaddr import akamai as PROVIDER_AKAMAI
 
 from publicaddr import randprov
+from publicaddr import constants
 
-# Use IPv4 or IPv6 protocols to reach the provider
-IP_V4=4
-IP_V6=6
+from publicaddr.constants import *
 
-# Use DNS or HTTP protocols to reach the provider
-PROTO_DNS=1
-PROTO_HTTP=2
-
-# the default provider
-PROVIDER_RANDOM = randprov
-
-# the list of available providers
-PROVIDER_GOOGLE = google
-PROVIDER_OPENDNS = opendns
-PROVIDER_CLOUDFLARE = cloudflare
-PROVIDER_AKAMAI = akamai
-
-logging.basicConfig(format='%(asctime)s %(message)s', stream=sys.stdout, level=logging.DEBUG)
+loglevel = logging.INFO
+logging.basicConfig(format='%(asctime)s %(message)s', stream=sys.stdout, level=loglevel)
+logging.getLogger("requests").setLevel(loglevel)
+logging.getLogger("urllib3").setLevel(loglevel)
 
 # register providers
-randprov.set_providers([google, opendns, cloudflare, akamai])
+randprov.set_providers([PROVIDER_GOOGLE, PROVIDER_OPENDNS, 
+                        PROVIDER_CLOUDFLARE, PROVIDER_AKAMAI])
 
 # get all public IP if exists
-def getall(provider=PROVIDER_RANDOM, ipproto=PROTO_DNS, debug=False):
-    """return your public ipv4 and ipv6"""
-    _provider = provider
-    # select provider in random mode ?
-    if provider == PROVIDER_RANDOM: _provider = provider.pickone(debug=debug)
+def lookup(providers=constants.ALL_PROVIDERS):
+    """lookup your public ipv4 and ipv6 from random providers"""
+    addrs = {}
+    start = time.perf_counter()
+
+    # select provider in random mode
+    if providers == constants.ALL_PROVIDERS: 
+        _provider = randprov.pick_all()
+        if len(_provider.dns_servers) and not len(_provider.http_servers): 
+            _ipproto = constants.PROTO_DNS
+        elif not len(_provider.dns_servers) and len(_provider.http_servers): 
+            _ipproto = constants.PROTO_HTTP
+        else:
+            _ipproto = randprov.pick_proto()
+
+    elif providers == constants.DNS_PROVIDERS: 
+        _provider = randprov.pick_dns()
+        _ipproto = constants.PROTO_DNS
+
+    elif providers == constants.HTTP_PROVIDERS: 
+        _provider = randprov.pick_http()
+        _ipproto = constants.PROTO_HTTP
+
+    else:
+        logging.error("fetch invalid providers mode - %s" % providers)
+        return addrs
 
     # lookup for public all ip
-    addrs = {}
-    addrs["ip4"] = _provider.lookup(ipversion=IP_V4, ipproto=ipproto, debug=debug)
-    addrs["ip6"] = _provider.lookup(ipversion=IP_V6, ipproto=ipproto, debug=debug)
+    addrs["ip4"] = _provider.lookup(ipversion=constants.IP_V4, ipproto=_ipproto)
+    addrs["ip6"] = _provider.lookup(ipversion=constants.IP_V6, ipproto=_ipproto)
     addrs["provider"] = _provider.NAME
+    addrs["proto"] = constants.PROTO_STR[_ipproto]
+
+    request_time = time.perf_counter() - start
+    addrs["duration"] = "{0:.3f}".format(request_time)
+
     return addrs
 
 # return from a specific provider, the IPv4 or IPv6
-def get(provider=PROVIDER_RANDOM, ipversion=IP_V4, ipproto=PROTO_DNS, debug=False):
+def get(provider=PROVIDER_GOOGLE, ipversion=constants.IP_V4, ipproto=constants.PROTO_DNS):
     """return your public ipv4 or ipv6"""
-    _provider = provider
-    # select provider in random mode ?
-    if provider == PROVIDER_RANDOM: _provider = provider.pickone()
-
-    # lookup for public ip
+    start = time.perf_counter()
     addr = {}
-    addr["ip"] = _provider.lookup(ipversion=ipversion, ipproto=ipproto, debug=debug)
-    addr["provider"] = _provider.NAME
+    addr["ip"] = provider.lookup(ipversion=ipversion, ipproto=ipproto)
+    request_time = time.perf_counter() - start
+    addr["duration"] = "{0:.3f}".format(request_time)
     return addr
+

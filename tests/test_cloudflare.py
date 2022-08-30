@@ -10,8 +10,8 @@ class TestCloudflare(unittest.TestCase):
         """get dns ip6"""
         ip = publicaddr.get(provider=publicaddr.PROVIDER_CLOUDFLARE, ipversion=publicaddr.IP_V6)
         self.assertNotEqual(ip, "")
-    def test_get_all(self):
+    def test_lookup(self):
         """get dns ip6 and ip4"""
-        ips = publicaddr.getall(provider=publicaddr.PROVIDER_CLOUDFLARE)
+        ips = publicaddr.lookup()
         self.assertIn("ip4", ips)
         self.assertIn("ip6", ips)
