@@ -8,6 +8,7 @@ from publicaddr import opendns as PROVIDER_OPENDNS
 from publicaddr import cloudflare as PROVIDER_CLOUDFLARE
 from publicaddr import akamai as PROVIDER_AKAMAI
 from publicaddr import ipify as PROVIDER_IPIFY
+from publicaddr import icanhazip as PROVIDER_ICANHAZIP
 
 from publicaddr import randprov
 from publicaddr import constants
@@ -21,7 +22,7 @@ logging.getLogger("urllib3").setLevel(loglevel)
 
 # register providers
 randprov.set_providers([PROVIDER_GOOGLE, PROVIDER_OPENDNS, PROVIDER_IPIFY,
-                        PROVIDER_CLOUDFLARE, PROVIDER_AKAMAI])
+                        PROVIDER_CLOUDFLARE, PROVIDER_AKAMAI, PROVIDER_ICANHAZIP])
 
 # get all public IP if exists
 def lookup(providers=constants.ALL_PROVIDERS):

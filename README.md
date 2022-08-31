@@ -13,6 +13,7 @@ Supported providers:
 - OpenDNS (DNS)
 - Akamai (DNS & HTTP)
 - Ipify (HTTP)
+- Icanhazip (HTTP)
 
 ## Installation
 
@@ -25,6 +26,7 @@ pip install publicaddr
 ## Lookup for IPv4 and v6
 
 Lookup for your public IPs from random providers with DNS or HTTP protocols.
+This is the default behaviour of the `lookup` function.
 
 ```python
 import publicaddr
