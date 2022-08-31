@@ -25,7 +25,7 @@ pip install publicaddr
 
 ## Lookup for IPv4 and v6
 
-Lookup for your public IPs from random providers with DNS or HTTP protocols.
+Lookup for your public IPs from random providers with DNS or HTTP protocols with 3 retries if no ips are returned.
 This is the default behaviour of the `lookup` function.
 
 ```python
@@ -44,7 +44,7 @@ Lookup for your public IPs from random DNS providers only.
 ```python
 import publicaddr
 
-publicaddr.lookup(providers=DNS_PROVIDERS)
+publicaddr.lookup(providers=DNS_PROVIDERS, retries=2)
 {'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'OpenDNS',
 'proto': 'DNS', 'duration': '0.037'}
 ```
