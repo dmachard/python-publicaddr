@@ -6,8 +6,6 @@ import logging
 from publicaddr import constants
 
 NAME = "Cloudflare"
-HAS_DNS_SUPPORT = True
-HAS_HTTP_SUPPORT = False
 
 timeout = 1
 

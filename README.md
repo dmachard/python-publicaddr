@@ -12,6 +12,7 @@ Supported providers:
 - Cloudflare (DNS)
 - OpenDNS (DNS)
 - Akamai (DNS & HTTP)
+- Ipify (HTTP)
 
 ## Installation
 
@@ -23,7 +24,7 @@ pip install publicaddr
 
 ## Lookup for IPv4 and v6
 
-Lookup for your public IPs from random providers.
+Lookup for your public IPs from random providers with DNS or HTTP protocols.
 
 ```python
 import publicaddr
@@ -32,6 +33,20 @@ publicaddr.lookup()
 {'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'OpenDNS',
 'proto': 'DNS', 'duration': '0.037'}
 ```
+
+## Lookup for IPv4 and v6 with DNS protocol only
+
+
+Lookup for your public IPs from random DNS providers only.
+
+```python
+import publicaddr
+
+publicaddr.lookup(providers=DNS_PROVIDERS)
+{'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'OpenDNS',
+'proto': 'DNS', 'duration': '0.037'}
+```
+
 ## Get IPv4 only
 
 Get your public IPv4 with default provider (Google with DNS protocol).

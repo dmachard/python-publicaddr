@@ -7,8 +7,6 @@ import logging
 from publicaddr import constants
 
 NAME = "Akamai"
-HAS_DNS_SUPPORT = False
-HAS_HTTP_SUPPORT = True
 
 timeout = 1
 

@@ -7,6 +7,7 @@ from publicaddr import google as PROVIDER_GOOGLE
 from publicaddr import opendns as PROVIDER_OPENDNS
 from publicaddr import cloudflare as PROVIDER_CLOUDFLARE
 from publicaddr import akamai as PROVIDER_AKAMAI
+from publicaddr import ipify as PROVIDER_IPIFY
 
 from publicaddr import randprov
 from publicaddr import constants
@@ -14,12 +15,12 @@ from publicaddr import constants
 from publicaddr.constants import *
 
 loglevel = logging.INFO
-logging.basicConfig(format='%(asctime)s %(message)s', stream=sys.stdout, level=loglevel)
+logging.basicConfig(format='%(levelname)s %(message)s', stream=sys.stdout, level=loglevel)
 logging.getLogger("requests").setLevel(loglevel)
 logging.getLogger("urllib3").setLevel(loglevel)
 
 # register providers
-randprov.set_providers([PROVIDER_GOOGLE, PROVIDER_OPENDNS, 
+randprov.set_providers([PROVIDER_GOOGLE, PROVIDER_OPENDNS, PROVIDER_IPIFY,
                         PROVIDER_CLOUDFLARE, PROVIDER_AKAMAI])
 
 # get all public IP if exists
