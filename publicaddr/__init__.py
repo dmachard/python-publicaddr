@@ -15,7 +15,7 @@ from publicaddr import constants
 
 from publicaddr.constants import *
 
-loglevel = logging.INFO
+loglevel = logging.CRITICAL
 logging.basicConfig(format='%(levelname)s %(message)s', stream=sys.stdout, level=loglevel)
 logging.getLogger("requests").setLevel(loglevel)
 logging.getLogger("urllib3").setLevel(loglevel)
@@ -25,41 +25,46 @@ randprov.set_providers([PROVIDER_GOOGLE, PROVIDER_OPENDNS, PROVIDER_IPIFY,
                         PROVIDER_CLOUDFLARE, PROVIDER_AKAMAI, PROVIDER_ICANHAZIP])
 
 # get all public IP if exists
-def lookup(providers=constants.ALL_PROVIDERS):
+def lookup(providers=constants.ALL_PROVIDERS, retries=3):
     """lookup your public ipv4 and ipv6 from random providers"""
     addrs = {}
-    start = time.perf_counter()
 
-    # select provider in random mode
-    if providers == constants.ALL_PROVIDERS: 
-        _provider = randprov.pick_all()
-        if len(_provider.dns_servers) and not len(_provider.http_servers): 
+    for _ in range(retries):
+        start = time.perf_counter()
+
+        # select provider in random mode
+        if providers == constants.ALL_PROVIDERS: 
+            _provider = randprov.pick_all()
+            if len(_provider.dns_servers) and not len(_provider.http_servers): 
+                _ipproto = constants.PROTO_DNS
+            elif not len(_provider.dns_servers) and len(_provider.http_servers): 
+                _ipproto = constants.PROTO_HTTP
+            else:
+                _ipproto = randprov.pick_proto()
+
+        elif providers == constants.DNS_PROVIDERS: 
+            _provider = randprov.pick_dns()
             _ipproto = constants.PROTO_DNS
-        elif not len(_provider.dns_servers) and len(_provider.http_servers): 
+
+        elif providers == constants.HTTP_PROVIDERS: 
+            _provider = randprov.pick_http()
             _ipproto = constants.PROTO_HTTP
+
         else:
-            _ipproto = randprov.pick_proto()
+            logging.error("fetch invalid providers mode - %s" % providers)
+            return addrs
 
-    elif providers == constants.DNS_PROVIDERS: 
-        _provider = randprov.pick_dns()
-        _ipproto = constants.PROTO_DNS
+        # lookup for public all ip
+        addrs["ip4"] = _provider.lookup(ipversion=constants.IP_V4, ipproto=_ipproto)
+        addrs["ip6"] = _provider.lookup(ipversion=constants.IP_V6, ipproto=_ipproto)
+        addrs["provider"] = _provider.NAME
+        addrs["proto"] = constants.PROTO_STR[_ipproto]
 
-    elif providers == constants.HTTP_PROVIDERS: 
-        _provider = randprov.pick_http()
-        _ipproto = constants.PROTO_HTTP
+        request_time = time.perf_counter() - start
+        addrs["duration"] = "{0:.3f}".format(request_time)
 
-    else:
-        logging.error("fetch invalid providers mode - %s" % providers)
-        return addrs
-
-    # lookup for public all ip
-    addrs["ip4"] = _provider.lookup(ipversion=constants.IP_V4, ipproto=_ipproto)
-    addrs["ip6"] = _provider.lookup(ipversion=constants.IP_V6, ipproto=_ipproto)
-    addrs["provider"] = _provider.NAME
-    addrs["proto"] = constants.PROTO_STR[_ipproto]
-
-    request_time = time.perf_counter() - start
-    addrs["duration"] = "{0:.3f}".format(request_time)
+        if not(addrs["ip4"] is None and addrs["ip6"] is None):
+            break
 
     return addrs
 
