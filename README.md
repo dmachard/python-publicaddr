@@ -87,5 +87,5 @@ myip = get(provider=PROVIDER_CLOUDFLARE, ipversion=IP_V6, ipproto=PROTO_DNS)
 Run test units
 
 ```bash
-python3 -m unittest -v discover tests/
+python3 -m unittest discover tests/
 ```
