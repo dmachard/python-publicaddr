@@ -14,6 +14,8 @@ http_servers = {
     "ip6": "https://ipv6.icanhazip.com/",
 }
 
+stuns_servers = {}
+
 def lookup_http(ipversion):
     ip = None
     try:

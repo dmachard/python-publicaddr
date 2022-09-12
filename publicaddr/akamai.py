@@ -21,6 +21,7 @@ http_servers = {
     "ip6": "http://ipv6.whatismyip.akamai.com/",
 }
 
+stuns_servers = {}
 
 # dig @193.108.91.67 whoami.ds.akahelp.net TXT +short
 # "ns" "x.x.x.x"

@@ -18,6 +18,8 @@ dns_servers = {
 
 http_servers = {}
 
+stuns_servers = {}
+
 # dig myip.opendns.com @resolver1.opendns.com -6 AAAA +short
 # dig myip.opendns.com @resolver1.opendns.com -4 A +short
 

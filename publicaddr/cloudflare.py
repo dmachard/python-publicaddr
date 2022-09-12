@@ -17,6 +17,8 @@ dns_servers = {
 
 http_servers = {}
 
+stuns_servers = {}
+
 # dig @2606:4700:4700::1111 whoami.cloudflare TXT CH +short
 # dig @2606:4700:4700::1111 whoami.cloudflare TXT CH +short
 def _resolv_addr(nameservers=[], qname="whoami.cloudflare", rdtype="TXT", rdclass="CH"  ):

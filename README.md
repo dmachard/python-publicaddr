@@ -8,12 +8,13 @@
 Simple python module for getting your **public IP V4 and V6** from several providers in **random** mode.
 
 Supported providers:
-- Google (DNS & HTTP)
-- Cloudflare (DNS)
-- OpenDNS (DNS)
-- Akamai (DNS & HTTP)
-- Ipify (HTTP)
-- Icanhazip (HTTP)
+- [x] Google (DNS & HTTP & STUNS)
+- [x] Cloudflare (DNS)
+- [x] OpenDNS (DNS)
+- [x] Akamai (DNS & HTTP)
+- [x] Ipify (HTTP)
+- [x] Icanhazip (HTTP)
+- [x] [Matrix](https://www.matrix.org) (STUNS)
 
 ## Installation
 

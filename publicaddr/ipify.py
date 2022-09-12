@@ -15,6 +15,8 @@ http_servers = {
     "ip6": "https://api6.ipify.org/",
 }
 
+stuns_servers = {}
+
 def lookup_http(ipversion):
     ip = None
     try:

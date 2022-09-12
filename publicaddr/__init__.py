@@ -9,6 +9,7 @@ from publicaddr import cloudflare as PROVIDER_CLOUDFLARE
 from publicaddr import akamai as PROVIDER_AKAMAI
 from publicaddr import ipify as PROVIDER_IPIFY
 from publicaddr import icanhazip as PROVIDER_ICANHAZIP
+from publicaddr import matrix as PROVIDER_MATRIX
 
 from publicaddr import randprov
 from publicaddr import constants
@@ -22,7 +23,8 @@ logging.getLogger("urllib3").setLevel(loglevel)
 
 # register providers
 randprov.set_providers([PROVIDER_GOOGLE, PROVIDER_OPENDNS, PROVIDER_IPIFY,
-                        PROVIDER_CLOUDFLARE, PROVIDER_AKAMAI, PROVIDER_ICANHAZIP])
+                        PROVIDER_CLOUDFLARE, PROVIDER_AKAMAI, PROVIDER_ICANHAZIP,
+                        PROVIDER_MATRIX])
 
 # get all public IP if exists
 def lookup(providers=constants.ALL_PROVIDERS, retries=3):
@@ -35,10 +37,12 @@ def lookup(providers=constants.ALL_PROVIDERS, retries=3):
         # select provider in random mode
         if providers == constants.ALL_PROVIDERS: 
             _provider = randprov.pick_all()
-            if len(_provider.dns_servers) and not len(_provider.http_servers): 
+            if len(_provider.dns_servers) and not len(_provider.http_servers) and not len(_provider.stun_servers): 
                 _ipproto = constants.PROTO_DNS
-            elif not len(_provider.dns_servers) and len(_provider.http_servers): 
+            elif not len(_provider.dns_servers) and len(_provider.http_servers) and not len(_provider.stun_servers): 
                 _ipproto = constants.PROTO_HTTP
+            elif not len(_provider.dns_servers) and not len(_provider.http_servers) and len(_provider.stun_servers): 
+                _ipproto = constants.PROTO_STUNS
             else:
                 _ipproto = randprov.pick_proto()
 
@@ -49,6 +53,10 @@ def lookup(providers=constants.ALL_PROVIDERS, retries=3):
         elif providers == constants.HTTP_PROVIDERS: 
             _provider = randprov.pick_http()
             _ipproto = constants.PROTO_HTTP
+
+        elif providers == constants.STUNS_PROVIDERS: 
+            _provider = randprov.pick_stuns()
+            _ipproto = constants.PROTO_STUNS
 
         else:
             logging.error("fetch invalid providers mode - %s" % providers)
