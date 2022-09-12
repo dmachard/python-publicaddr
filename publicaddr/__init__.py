@@ -37,11 +37,11 @@ def lookup(providers=constants.ALL_PROVIDERS, retries=3):
         # select provider in random mode
         if providers == constants.ALL_PROVIDERS: 
             _provider = randprov.pick_all()
-            if len(_provider.dns_servers) and not len(_provider.http_servers) and not len(_provider.stun_servers): 
+            if len(_provider.dns_servers) and not len(_provider.http_servers) and not len(_provider.stuns_servers): 
                 _ipproto = constants.PROTO_DNS
-            elif not len(_provider.dns_servers) and len(_provider.http_servers) and not len(_provider.stun_servers): 
+            elif not len(_provider.dns_servers) and len(_provider.http_servers) and not len(_provider.stuns_servers): 
                 _ipproto = constants.PROTO_HTTP
-            elif not len(_provider.dns_servers) and not len(_provider.http_servers) and len(_provider.stun_servers): 
+            elif not len(_provider.dns_servers) and not len(_provider.http_servers) and len(_provider.stuns_servers): 
                 _ipproto = constants.PROTO_STUNS
             else:
                 _ipproto = randprov.pick_proto()
