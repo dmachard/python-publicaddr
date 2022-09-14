@@ -8,13 +8,14 @@
 Simple python module for getting your **public IP V4 and V6** from several providers in **random** mode.
 
 Supported providers:
-- [x] Google (DNS & HTTP & STUNS)
+- [x] Google (DNS & HTTP & STUN)
 - [x] Cloudflare (DNS)
 - [x] OpenDNS (DNS)
 - [x] Akamai (DNS & HTTP)
-- [x] Ipify (HTTP)
+- [x] [Ipify](https://www.ipify.org/) (HTTP)
 - [x] Icanhazip (HTTP)
-- [x] [Matrix](https://www.matrix.org) (STUNS)
+- [x] [Matrix](https://www.matrix.org) (STUN)
+- [x] [Framasoft](https://framasoft.org/) (STUN)
 
 ## Installation
 
@@ -33,8 +34,8 @@ This is the default behaviour of the `lookup` function.
 import publicaddr
 
 publicaddr.lookup()
-{'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'OpenDNS',
-'proto': 'DNS', 'duration': '0.037'}
+{'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'opendns',
+'proto': 'dns', 'duration': '0.037'}
 ```
 
 ## Lookup for IPv4 and v6 with DNS protocol only
@@ -45,9 +46,9 @@ Lookup for your public IPs from random DNS providers only.
 ```python
 import publicaddr
 
-publicaddr.lookup(providers=DNS_PROVIDERS, retries=2)
-{'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'OpenDNS',
-'proto': 'DNS', 'duration': '0.037'}
+publicaddr.lookup(providers=publicaddr.DNS, retries=2)
+{'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'opendns',
+'proto': 'dns', 'duration': '0.037'}
 ```
 
 ## Get IPv4 only
@@ -57,7 +58,7 @@ Get your public IPv4 with default provider (Google with DNS protocol).
 ```python
 import publicaddr
 
-publicaddr.get(ipversion=4)
+publicaddr.get(ip=publicaddr.IPv4)
 {'ip': 'x.x.x.x', 'duration': '0.025'}
 ```
 
@@ -68,7 +69,7 @@ Get your public IPv6 with default provider (Google with DNS protocol).
 ```python
 import publicaddr
 
-publicaddr.get(ipversion=6)
+publicaddr.get(ip=publicaddr.IPv6)
 {'ip': 'x:x:x:x:x:x:x:x', 'duration': '0.063'}
 ```
 
@@ -77,11 +78,34 @@ publicaddr.get(ipversion=6)
 Example to use the provider Cloudflare instead of the default one.
 
 ```python
-from publicaddr import get, PROVIDER_CLOUDFLARE, IP_V6, PROTO_DNS
+import publicaddr
 
-myip = get(provider=PROVIDER_CLOUDFLARE, ipversion=IP_V6, ipproto=PROTO_DNS)
+myip = publicaddr.get(provider=publicaddr.CLOUDFLARE, ip=publicaddr.IPv6, proto=publicaddr.DNS)
 {'ip': 'x:x:x:x:x:x:x:x', 'duration': '0.020'}
 ```
+
+Default constants for providers:
+- publicaddr.CLOUDFLARE
+- publicaddr.GOOGLE
+- publicaddr.OPENDNS
+- publicaddr.AKAMAI
+- publicaddr.IPIFY
+- publicaddr.ICANHAZIP
+- publicaddr.MATRIX
+- publicaddr.FRAMASOFT
+
+Default constants for IP version:
+- publicaddr.IPv4
+- publicaddr.IPv6
+
+Default constants for transport protocol:
+- publicaddr.HTTPS
+- publicaddr.DNS
+- publicaddr.STUN
+
+## Custom configuration
+
+See the default [configuration file](../main/publicaddr/publicaddr.yml)
 
 ## For developpers
 
