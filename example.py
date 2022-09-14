@@ -1,4 +1,8 @@
 import publicaddr
 
-externalip = publicaddr.lookup(providers=publicaddr.STUNS_PROVIDERS, retries=1)
-print(externalip)
+myip = publicaddr.lookup()
+print(myip)
+
+myip = publicaddr.get(provider=publicaddr.AKAMAI, proto=publicaddr.HTTPS, ip=publicaddr.IPv4)
+
+print(myip)

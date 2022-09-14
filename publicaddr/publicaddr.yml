@@ -1,0 +1,56 @@
+debug: false
+timeout: 2
+retries: 3
+
+providers:
+  https:
+    - name: akamai
+      url: https://ds.whatismyip.akamai.com/
+      insecure: true
+
+    - name: google
+      url: https://domains.google.com/checkip
+
+    - name: icanhazip
+      url: https://icanhazip.com/
+
+    - name: ipify
+      url: https://api64.ipify.org
+
+  dns:
+    - name: akamai
+      nameservers: [ a1-67.akam.net, a3-67.akam.net ]
+      lookup: whoami.ds.akahelp.net
+      qtype: TXT
+      pattern: ns\n(.*)
+
+    - name: google
+      nameservers: [ ns1.google.com, ns2.google.com, ns3.google.com ]
+      lookup: o-o.myaddr.google.com
+      qtype: TXT
+
+    - name: opendns
+      nameservers: [ resolver1.opendns.com, resolver2.opendns.com ]
+      lookup: myip.opendns.com
+
+    - name: cloudflare
+      nameservers: [ 1dot1dot1dot1.cloudflare-dns.com ]
+      lookup: whoami.cloudflare
+      class: CH
+      qtype: TXT
+
+  stun:
+    - name: google
+      host: turns.goog
+      port: 443
+      transport: tls
+
+    - name: matrix
+      host: turn.matrix.org
+      port: 443
+      transport: tls
+
+    - name: framasoft
+      host: stun.framasoft.org
+      port: 3478
+      transport: udp

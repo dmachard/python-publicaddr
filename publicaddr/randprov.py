@@ -1,42 +1,51 @@
 from random import randrange
+from publicaddr import constants
 
-_providers = []
-_providers_dns = []
-_providers_http = []
-_providers_stuns = []
+_https_providers = []
+_dns_providers = []
+_stun_providers = []
 
-def set_providers(providers):
-    """set all providers"""
-    global _providers
-    global _providers_dns
-    global _providers_http
-    global _providers_stuns
-    _providers = providers
+def set_http_providers(providers):
+    global _https_providers
+    _https_providers.extend(providers)
+    for prov in _https_providers:
+        prov["mode"] = constants.HTTPS
 
-    for prov in providers:
-        if len(prov.dns_servers): _providers_dns.append(prov)
-        if len(prov.http_servers): _providers_http.append(prov)
-        if len(prov.stuns_servers): _providers_stuns.append(prov)
+def set_dns_providers(providers):
+    global _dns_providers
+    _dns_providers.extend(providers)
+    for prov in _dns_providers:
+        prov["mode"] = constants.DNS
 
-def pick_proto():
-    return randrange(3)+1
+def set_stun_providers(providers):
+    global _stun_providers
+    _stun_providers.extend(providers)
+    for prov in _stun_providers:
+        prov["mode"] = constants.STUN
 
 def pick_all():
-    global _providers 
-    id = randrange(len(_providers))
-    return _providers[id]
+    global _https_providers 
+
+    # merge all providers
+    allproviders = []
+    allproviders.extend(_https_providers)
+    allproviders.extend(_dns_providers)
+    allproviders.extend(_stun_providers)
+
+    id = randrange(len(allproviders))
+    return allproviders[id]
+
+def pick_https():
+    global _https_providers 
+    id = randrange(len(_https_providers))
+    return _https_providers[id]
 
 def pick_dns():
-    global _providers_dns
-    id = randrange(len(_providers_dns))
-    return _providers_dns[id]
+    global _dns_providers 
+    id = randrange(len(_dns_providers))
+    return _dns_providers[id]
 
-def pick_http():
-    global _providers_http
-    id = randrange(len(_providers_http))
-    return _providers_http[id]
-
-def pick_stuns():
-    global _providers_stuns
-    id = randrange(len(_providers_stuns))
-    return _providers_stuns[id]
+def pick_stun():
+    global _stun_providers 
+    id = randrange(len(_stun_providers))
+    return _stun_providers[id]
