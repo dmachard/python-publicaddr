@@ -103,6 +103,10 @@ Default constants for transport protocol:
 - publicaddr.DNS
 - publicaddr.STUN
 
+## Custom configuration
+
+See the default [configuration file](../main/publicaddr/publicaddr.yml)
+
 ## For developpers
 
 Run test units
