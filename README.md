@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/publicaddr)
 
-Simple python module for getting your **public IP V4 and V6** from several providers in **random** mode.
+Simple python module for getting your **public IP V4 and V6** from several providers in **random** mode with also several protocols (DNS, HTTPS and STUN).
 
 Supported providers:
 - [x] Google (DNS & HTTP & STUN)
@@ -38,10 +38,9 @@ publicaddr.lookup()
 'proto': 'dns', 'duration': '0.037'}
 ```
 
-## Lookup for IPv4 and v6 with DNS protocol only
+## Lookup for public IP with specific protocol
 
-
-Lookup for your public IPs from random DNS providers only.
+Lookup for your public IPs from random DNS providers with specific protocol.
 
 ```python
 import publicaddr
@@ -50,6 +49,11 @@ publicaddr.lookup(providers=publicaddr.DNS, retries=2)
 {'ip4': 'x.x.x.x', 'ip6': 'x:x:x:x:x:x:x:x', 'provider': 'opendns',
 'proto': 'dns', 'duration': '0.037'}
 ```
+
+Default constants for transport protocol:
+- publicaddr.HTTPS
+- publicaddr.DNS
+- publicaddr.STUN
 
 ## Get IPv4 or IPv6 only
 
@@ -86,11 +90,6 @@ Default constants for providers:
 - publicaddr.ICANHAZIP
 - publicaddr.MATRIX
 - publicaddr.FRAMASOFT
-
-Default constants for transport protocol:
-- publicaddr.HTTPS
-- publicaddr.DNS
-- publicaddr.STUN
 
 ## Custom configuration
 
