@@ -51,7 +51,7 @@ publicaddr.lookup(providers=publicaddr.DNS, retries=2)
 'proto': 'dns', 'duration': '0.037'}
 ```
 
-## Get IPv4 only
+## Get IPv4 or IPv6 only
 
 Get your public IPv4 with default provider (Google with DNS protocol).
 
@@ -62,16 +62,9 @@ publicaddr.get(ip=publicaddr.IPv4)
 {'ip': 'x.x.x.x', 'duration': '0.025'}
 ```
 
-## Get IPv6 only
-
-Get your public IPv6 with default provider (Google with DNS protocol).
-
-```python
-import publicaddr
-
-publicaddr.get(ip=publicaddr.IPv6)
-{'ip': 'x:x:x:x:x:x:x:x', 'duration': '0.063'}
-```
+Default constants for IP version:
+- publicaddr.IPv4
+- publicaddr.IPv6
 
 ## Get IP with specific provider
 
@@ -80,7 +73,7 @@ Example to use the provider Cloudflare instead of the default one.
 ```python
 import publicaddr
 
-myip = publicaddr.get(provider=publicaddr.CLOUDFLARE, ip=publicaddr.IPv6, proto=publicaddr.DNS)
+myip = publicaddr.get(provider=publicaddr.CLOUDFLARE, proto=publicaddr.DNS)
 {'ip': 'x:x:x:x:x:x:x:x', 'duration': '0.020'}
 ```
 
@@ -93,10 +86,6 @@ Default constants for providers:
 - publicaddr.ICANHAZIP
 - publicaddr.MATRIX
 - publicaddr.FRAMASOFT
-
-Default constants for IP version:
-- publicaddr.IPv4
-- publicaddr.IPv6
 
 Default constants for transport protocol:
 - publicaddr.HTTPS
