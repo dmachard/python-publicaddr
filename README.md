@@ -51,9 +51,9 @@ publicaddr.lookup(providers=publicaddr.DNS, retries=2)
 ```
 
 Default constants for transport protocol:
-- publicaddr.HTTPS
-- publicaddr.DNS
-- publicaddr.STUN
+- `publicaddr.HTTPS`
+- `publicaddr.DNS`
+- `publicaddr.STUN`
 
 ## Get IPv4 or IPv6 only
 
@@ -67,8 +67,8 @@ publicaddr.get(ip=publicaddr.IPv4)
 ```
 
 Default constants for IP version:
-- publicaddr.IPv4
-- publicaddr.IPv6
+- `publicaddr.IPv4`
+- `publicaddr.IPv6`
 
 ## Get IP with specific provider
 
@@ -82,14 +82,14 @@ myip = publicaddr.get(provider=publicaddr.CLOUDFLARE, proto=publicaddr.DNS)
 ```
 
 Default constants for providers:
-- publicaddr.CLOUDFLARE
-- publicaddr.GOOGLE
-- publicaddr.OPENDNS
-- publicaddr.AKAMAI
-- publicaddr.IPIFY
-- publicaddr.ICANHAZIP
-- publicaddr.MATRIX
-- publicaddr.FRAMASOFT
+- `publicaddr.CLOUDFLARE`
+- `publicaddr.GOOGLE`
+- `publicaddr.OPENDNS`
+- `publicaddr.AKAMAI`
+- `publicaddr.IPIFY`
+- `publicaddr.ICANHAZIP`
+- `publicaddr.MATRIX`
+- `publicaddr.FRAMASOFT`
 
 ## Custom configuration
 
