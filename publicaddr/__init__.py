@@ -120,8 +120,10 @@ def get(provider="google", proto=constants.DNS, ip=constants.IPv4, timeout=None)
 
     if _provider["mode"] == constants.HTTPS:
         insecure = _provider["insecure"] if "insecure" in _provider else False
+        pattern = _provider["pattern"] if "pattern" in _provider else None
         addr["ip"] = handlers.lookup_http(url=_provider["url"], ipversion=ip,
-                                          timeout=cfg["timeout"], insecure=insecure)
+                                          timeout=cfg["timeout"], insecure=insecure,
+                                          pattern=pattern)
 
     if _provider["mode"] == constants.DNS:
         dnsclass = _provider["class"] if "class" in _provider else "IN"

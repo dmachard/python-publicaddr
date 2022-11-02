@@ -14,7 +14,7 @@ from publicaddr import constants
 # Suppress only the single warning from urllib3 needed.
 from urllib3.exceptions import InsecureRequestWarning
 
-def lookup_http(url, ipversion, timeout, insecure):
+def lookup_http(url, ipversion, timeout, insecure, pattern):
     ip = None
     requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
@@ -24,10 +24,15 @@ def lookup_http(url, ipversion, timeout, insecure):
         else:
             requests.packages.urllib3.util.connection.HAS_IPV6 = True
 
-        ip = requests.get(url, timeout=timeout, verify=not insecure).text.rstrip()
+        text = requests.get(url, timeout=timeout, verify=not insecure).text.rstrip()
+
+        if pattern is not None:
+            match = re.search(pattern, "\n".join(text))
+            if match:
+                return match.group(1)
     except requests.exceptions.RequestException as e:
         logging.error("[http] - %s" % e)
-    return ip
+    return text
 
 async def _lookup_stun(host, port, family, transport, timeout):
     async with aiostun.Client(host=host, port=port, family=family, proto=transport, timeout=timeout) as stunc:

@@ -17,6 +17,10 @@ providers:
     - name: ipify
       url: https://api64.ipify.org
 
+    - name: cloudflare
+      url: https://www.cloudflare.com/cdn-cgi/trace
+      pattern: ip=(.*)\n
+
   dns:
     - name: akamai
       nameservers: [ a1-67.akam.net, a3-67.akam.net ]

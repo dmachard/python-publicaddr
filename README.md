@@ -9,7 +9,7 @@ Simple python module for getting your **public IP V4 and V6** from several provi
 
 Supported providers:
 - [x] Google (DNS & HTTP & STUN)
-- [x] Cloudflare (DNS)
+- [x] Cloudflare (DNS & HTTP)
 - [x] OpenDNS (DNS)
 - [x] Akamai (DNS & HTTP)
 - [x] [Ipify](https://www.ipify.org/) (HTTP)
