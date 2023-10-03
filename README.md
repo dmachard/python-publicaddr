@@ -18,7 +18,7 @@ Supported providers:
 
 ## Installation
 
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/publicaddr)
+![python 3.12.x](https://img.shields.io/badge/python%203.12.x-tested-blue) ![python 3.11.x](https://img.shields.io/badge/python%203.11.x-tested-blue) ![python 3.10.x](https://img.shields.io/badge/python%203.10.x-tested-blue)
 
 This module can be installed from [pypi](https://pypi.org/project/publicaddr/) website
 
