@@ -1,9 +1,8 @@
+![Testing](https://github.com/dmachard/python-publicaddr/workflows/Testing/badge.svg) ![Build](https://github.com/dmachard/python-publicaddr/workflows/Build/badge.svg) ![Publish](https://github.com/dmachard/python-publicaddr/workflows/Publish/badge.svg)
+
 # What is this?
 
-![Testing](https://github.com/dmachard/python-publicaddr/workflows/Testing/badge.svg) ![Build](https://github.com/dmachard/python-publicaddr/workflows/Build/badge.svg) ![Publish](https://github.com/dmachard/python-publicaddr/workflows/Publish/badge.svg) 
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/publicaddr)
 
 Simple python module for getting your **public IP V4 and V6** from several providers in **random** mode with also several protocols (DNS, HTTPS and STUN).
 
@@ -18,6 +17,8 @@ Supported providers:
 - [x] [Framasoft](https://framasoft.org/) (STUN)
 
 ## Installation
+
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/publicaddr)
 
 This module can be installed from [pypi](https://pypi.org/project/publicaddr/) website
 
