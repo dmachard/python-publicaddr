@@ -13,14 +13,14 @@ from publicaddr import handlers
 
 cfg = {}
 
-def lookup(providers=constants.ALL, retries=None, timeout=None):
+def lookup(providers=constants.ALL, retries=None, timeout=None, ip=None):
     """lookup for all public IP if existsfrom random providers"""
     global cfg
     if retries is not None: cfg["retries"] = retries
     if timeout is not None: cfg["timeout"] = timeout
     logging.debug("lookup from providers retries=%s" % (cfg["retries"]))
 
-    addrs = {}
+    addrs = {"ip4": None, "ip6": None}
 
     for _ in range(cfg["retries"]):
         start = time.perf_counter()
@@ -39,36 +39,47 @@ def lookup(providers=constants.ALL, retries=None, timeout=None):
 
         if provider["mode"] == constants.HTTPS:
             insecure = False
+            pattern = provider["pattern"] if "pattern" in provider else None
+
             if "insecure" in provider:
                 insecure = provider["insecure"]
-            addrs["ip4"] = handlers.lookup_http(url=provider["url"], ipversion=constants.IPv4,
-                                                timeout=cfg["timeout"], insecure=insecure)
-            addrs["ip6"] = handlers.lookup_http(url=provider["url"], ipversion=constants.IPv6,
-                                                timeout=cfg["timeout"], insecure=insecure)
+
+            if ip == constants.IPv4 or ip == None:
+                addrs["ip4"] = handlers.lookup_http(url=provider["url"], ipversion=constants.IPv4,
+                                                    timeout=cfg["timeout"], insecure=insecure,
+                                                    pattern=pattern)
+            if ip == constants.IPv6 or ip == None:
+                addrs["ip6"] = handlers.lookup_http(url=provider["url"], ipversion=constants.IPv6,
+                                                    timeout=cfg["timeout"], insecure=insecure,
+                                                    pattern=pattern)
 
         if provider["mode"] == constants.DNS:
             dnsclass = provider["class"] if "class" in provider else "IN"
             qtype = provider["qtype"] if "qtype" in provider else None
             pattern = provider["pattern"] if "pattern" in provider else None
 
-            addrs["ip4"] = handlers.lookup_dns_v4(nameservers=provider["nameservers"],
-                                                  lookup=provider["lookup"],
-                                                  dnsclass=dnsclass, qtype=qtype,
-                                                  timeout=cfg["timeout"], pattern=pattern)
-            addrs["ip6"] = handlers.lookup_dns_v6(nameservers=provider["nameservers"],
-                                                  lookup=provider["lookup"],
-                                                  dnsclass=dnsclass, qtype=qtype,
-                                                  timeout=cfg["timeout"], pattern=pattern)
+            if ip == constants.IPv4 or ip == None:
+                addrs["ip4"] = handlers.lookup_dns_v4(nameservers=provider["nameservers"],
+                                                    lookup=provider["lookup"],
+                                                    dnsclass=dnsclass, qtype=qtype,
+                                                    timeout=cfg["timeout"], pattern=pattern)
+            if ip == constants.IPv6 or ip == None:
+                addrs["ip6"] = handlers.lookup_dns_v6(nameservers=provider["nameservers"],
+                                                    lookup=provider["lookup"],
+                                                    dnsclass=dnsclass, qtype=qtype,
+                                                    timeout=cfg["timeout"], pattern=pattern)
 
         if provider["mode"] == constants.STUN:
-            addrs["ip4"] = handlers.lookup_stun(host=provider["host"], port=provider["port"], 
-                                                ipversion=constants.IPv4,
-                                                transport=provider["transport"],
-                                                timeout=cfg["timeout"])
-            addrs["ip6"] = handlers.lookup_stun(host=provider["host"], port=provider["port"], 
-                                                ipversion=constants.IPv6,
-                                                transport=provider["transport"],
-                                                timeout=cfg["timeout"])
+            if ip == constants.IPv4 or ip == None:
+                addrs["ip4"] = handlers.lookup_stun(host=provider["host"], port=provider["port"], 
+                                                    ipversion=constants.IPv4,
+                                                    transport=provider["transport"],
+                                                    timeout=cfg["timeout"])
+            if ip == constants.IPv6 or ip == None:
+                addrs["ip6"] = handlers.lookup_stun(host=provider["host"], port=provider["port"], 
+                                                    ipversion=constants.IPv6,
+                                                    transport=provider["transport"],
+                                                    timeout=cfg["timeout"])
 
         addrs["provider"] = provider["name"]
         addrs["proto"] = provider["mode"]

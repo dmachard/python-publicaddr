@@ -5,6 +5,7 @@ import logging
 import asyncio
 import aiostun
 import re
+import socket
 
 import dns.resolver
 import dns.exception
@@ -20,19 +21,24 @@ def lookup_http(url, ipversion, timeout, insecure, pattern):
 
     try:
         if ipversion == constants.IPv4:
-            requests.packages.urllib3.util.connection.HAS_IPV6 = False
+            def allowed_gai_family():
+                return socket.AF_INET
         else:
-            requests.packages.urllib3.util.connection.HAS_IPV6 = True
+            def allowed_gai_family():
+                return socket.AF_INET6
 
-        text = requests.get(url, timeout=timeout, verify=not insecure).text.rstrip()
 
+        requests.packages.urllib3.util.connection.allowed_gai_family = allowed_gai_family
+
+        ip = requests.get(url, timeout=timeout, verify=not insecure).text.rstrip()
+    
         if pattern is not None:
-            match = re.search(pattern, "\n".join(text))
+            match = re.search(pattern, ip)
             if match:
                 return match.group(1)
     except requests.exceptions.RequestException as e:
         logging.error("[http] - %s" % e)
-    return text
+    return ip
 
 async def _lookup_stun(host, port, family, transport, timeout):
     async with aiostun.Client(host=host, port=port, family=family, proto=transport, timeout=timeout) as stunc:
