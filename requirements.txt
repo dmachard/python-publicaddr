@@ -1,4 +1,4 @@
 requests==2.31.0
-dnspython==2.2.1
+dnspython==2.4.2
 aiostun==0.3.1
 pyyaml==6.0.1
