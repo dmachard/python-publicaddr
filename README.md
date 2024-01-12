@@ -7,6 +7,7 @@
 Simple python module for getting your **public IP V4 and V6** from several providers in **random** mode with also several protocols (DNS, HTTPS and STUN).
 
 Supported providers:
+
 - [x] Google (DNS & HTTP & STUN)
 - [x] Cloudflare (DNS & HTTP)
 - [x] OpenDNS (DNS)
@@ -52,6 +53,7 @@ publicaddr.lookup(providers=publicaddr.DNS, retries=2)
 ```
 
 Default constants for transport protocol:
+
 - `publicaddr.HTTPS`
 - `publicaddr.DNS`
 - `publicaddr.STUN`
@@ -68,6 +70,7 @@ publicaddr.get(ip=publicaddr.IPv4)
 ```
 
 Default constants for IP version:
+
 - `publicaddr.IPv4`
 - `publicaddr.IPv6`
 
@@ -83,6 +86,7 @@ myip = publicaddr.get(provider=publicaddr.CLOUDFLARE, proto=publicaddr.DNS)
 ```
 
 Default constants for providers:
+
 - `publicaddr.CLOUDFLARE`
 - `publicaddr.GOOGLE`
 - `publicaddr.OPENDNS`
@@ -98,7 +102,19 @@ See the default [configuration file](../main/publicaddr/publicaddr.yml)
 
 ## For developpers
 
-Run test units
+### Run from source
+
+```bash
+sudo apt install python3-venv
+python -m venv venv
+source venv/bin/activate
+```
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
+### Run test units
 
 ```bash
 python3 -m unittest discover tests/
