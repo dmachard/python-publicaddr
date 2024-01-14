@@ -97,7 +97,7 @@ Default constants for providers:
 - `publicaddr.ICANHAZIP`
 - `publicaddr.MATRIX`
 - `publicaddr.FRAMASOFT`
-- `publicaddr.MULLVAD` *disabled by default in config because IPv6 is not supported*
+- `publicaddr.MULLVAD` *(disabled by default in config because IPv6 is not supported)*
 - `publicaddr.IFCONFIG_ME`
 
 ## Custom configuration
