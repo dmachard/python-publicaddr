@@ -25,7 +25,7 @@ providers:
       url: https://am.i.mullvad.net/ip
       ipv6_support: false
 
-    - name: ifconfig
+    - name: ifconfig_me
       url: http://ifconfig.me/ip
 
   dns:
