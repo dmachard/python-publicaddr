@@ -25,6 +25,9 @@ providers:
       url: https://am.i.mullvad.net/ip
       ipv6_support: false
 
+    - name: ifconfig
+      url: http://ifconfig.me/ip
+
   dns:
     - name: akamai
       nameservers: [ a1-67.akam.net, a3-67.akam.net ]

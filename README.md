@@ -16,7 +16,8 @@ Supported providers:
 - [x] Icanhazip (HTTP)
 - [x] [Matrix](https://www.matrix.org) (STUN)
 - [x] [Framasoft](https://framasoft.org/) (STUN)
-- [x] [Mullvad](https://am.i.mullvad.net/ip) (HTTPS - IPv4 only)
+- [x] [Mullvad](https://mullvad.net/en) (HTTP)
+- [x] [Ifconfig.me](https://ifconfig.me/) (HTTP)
 
 ## Installation
 
@@ -96,7 +97,8 @@ Default constants for providers:
 - `publicaddr.ICANHAZIP`
 - `publicaddr.MATRIX`
 - `publicaddr.FRAMASOFT`
-- `publicaddr.MULLVAD`
+- `publicaddr.MULLVAD` (IPv6 not supported)
+- `publicaddr.IFCONFIG`
 
 ## Custom configuration
 
