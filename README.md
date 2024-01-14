@@ -16,6 +16,7 @@ Supported providers:
 - [x] Icanhazip (HTTP)
 - [x] [Matrix](https://www.matrix.org) (STUN)
 - [x] [Framasoft](https://framasoft.org/) (STUN)
+- [x] [Mullvad](https://am.i.mullvad.net/ip) (HTTPS - IPv4 only)
 
 ## Installation
 
@@ -95,6 +96,7 @@ Default constants for providers:
 - `publicaddr.ICANHAZIP`
 - `publicaddr.MATRIX`
 - `publicaddr.FRAMASOFT`
+- `publicaddr.MULLVAD`
 
 ## Custom configuration
 
@@ -106,12 +108,13 @@ See the default [configuration file](../main/publicaddr/publicaddr.yml)
 
 ```bash
 sudo apt install python3-venv
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 ```
 
 ```bash
 python3 -m pip install -r requirements.txt
+python3 example.py
 ```
 
 ### Run test units

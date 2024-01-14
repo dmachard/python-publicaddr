@@ -21,6 +21,10 @@ providers:
       url: https://www.cloudflare.com/cdn-cgi/trace
       pattern: ip=(.*)\n
 
+    - name: mullvad
+      url: https://am.i.mullvad.net/ip
+      ipv6_support: false
+
   dns:
     - name: akamai
       nameservers: [ a1-67.akam.net, a3-67.akam.net ]

@@ -15,7 +15,7 @@ from publicaddr import constants
 # Suppress only the single warning from urllib3 needed.
 from urllib3.exceptions import InsecureRequestWarning
 
-def lookup_http(url, ipversion, timeout, insecure, pattern):
+def lookup_http(url, ipversion, timeout, insecure, pattern, ipv6_support):
     ip = None
     requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
@@ -24,6 +24,9 @@ def lookup_http(url, ipversion, timeout, insecure, pattern):
             def allowed_gai_family():
                 return socket.AF_INET
         else:
+            if not ipv6_support:
+                return ip
+            
             def allowed_gai_family():
                 return socket.AF_INET6
 
