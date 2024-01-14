@@ -6,7 +6,7 @@
 
 Simple python module for getting your **public IP V4 and V6** from several providers in **random** mode with also several protocols (DNS, HTTPS and STUN).
 
-Supported providers:
+Supported providers with IPv4 and IPv6:
 
 - [x] Google (DNS & HTTP & STUN)
 - [x] Cloudflare (DNS & HTTP)
@@ -16,7 +16,6 @@ Supported providers:
 - [x] Icanhazip (HTTP)
 - [x] [Matrix](https://www.matrix.org) (STUN)
 - [x] [Framasoft](https://framasoft.org/) (STUN)
-- [x] [Mullvad](https://mullvad.net/en) (HTTP)
 - [x] [Ifconfig.me](https://ifconfig.me/) (HTTP)
 
 ## Installation
