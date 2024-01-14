@@ -39,19 +39,22 @@ def lookup(providers=constants.ALL, retries=None, timeout=None, ip=None):
 
         if provider["mode"] == constants.HTTPS:
             insecure = False
+            ipv6_support = True
             pattern = provider["pattern"] if "pattern" in provider else None
 
             if "insecure" in provider:
                 insecure = provider["insecure"]
+            if "ipv6_support" in provider:
+                ipv6_support = provider["ipv6_support"]
 
             if ip == constants.IPv4 or ip == None:
                 addrs["ip4"] = handlers.lookup_http(url=provider["url"], ipversion=constants.IPv4,
                                                     timeout=cfg["timeout"], insecure=insecure,
-                                                    pattern=pattern)
+                                                    pattern=pattern, ipv6_support=ipv6_support)
             if ip == constants.IPv6 or ip == None:
                 addrs["ip6"] = handlers.lookup_http(url=provider["url"], ipversion=constants.IPv6,
                                                     timeout=cfg["timeout"], insecure=insecure,
-                                                    pattern=pattern)
+                                                    pattern=pattern, ipv6_support=ipv6_support)
 
         if provider["mode"] == constants.DNS:
             dnsclass = provider["class"] if "class" in provider else "IN"
@@ -132,9 +135,12 @@ def get(provider="google", proto=constants.DNS, ip=constants.IPv4, timeout=None)
     if _provider["mode"] == constants.HTTPS:
         insecure = _provider["insecure"] if "insecure" in _provider else False
         pattern = _provider["pattern"] if "pattern" in _provider else None
+        ipv6_support = True
+        if "ipv6_support" in _provider:
+            ipv6_support = bool(_provider["ipv6_support"] )
         addr["ip"] = handlers.lookup_http(url=_provider["url"], ipversion=ip,
                                           timeout=cfg["timeout"], insecure=insecure,
-                                          pattern=pattern)
+                                          pattern=pattern, ipv6_support=ipv6_support)
 
     if _provider["mode"] == constants.DNS:
         dnsclass = _provider["class"] if "class" in _provider else "IN"
