@@ -8,5 +8,9 @@ class TestIcanhazip(unittest.TestCase):
         self.assertNotEqual(ip, "")
     def test_get_ip6_http(self):
         """get dns ip6"""
-        ip = publicaddr.get(provider=publicaddr.ICANHAZIP, ip=publicaddr.IPv6, proto=publicaddr.HTTPS)
-        self.assertNotEqual(ip, "")
+        try:
+            ip = publicaddr.get(provider=publicaddr.ICANHAZIP, ip=publicaddr.IPv6, proto=publicaddr.HTTPS)
+            self.assertNotEqual(ip, "")
+        except Exception as e:
+            self.fail(f"Test failed due to network error: {e}")
+        
