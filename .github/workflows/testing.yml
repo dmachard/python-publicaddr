@@ -30,3 +30,5 @@ jobs:
         python -m unittest tests.test_akamai
         python -m unittest tests.test_cloudflare
         python -m unittest tests.test_opendns
+      env:
+        PUBLICADDR_IPV6_ENABLED: 0
