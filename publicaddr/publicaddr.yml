@@ -32,9 +32,6 @@ providers:
     # - name: mullvad
     #   url: https://am.i.mullvad.net/ip
     #   ipv6_support: false
-    
-    - name: google
-      url: https://domains.google.com/checkip
 
   dns:
     - name: akamai
