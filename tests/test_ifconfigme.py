@@ -3,7 +3,7 @@ import publicaddr
 import os
 import ipaddress
 
-class TestIpify(unittest.TestCase):
+class TestIfconfigMe(unittest.TestCase):
 
     def is_valid_ip(self, ip, version):
         """Helper to validate if the given IP is valid for the specified version (IPv4 or IPv6)."""
