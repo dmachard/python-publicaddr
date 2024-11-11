@@ -30,7 +30,7 @@ This module can be installed from [pypi](https://pypi.org/project/publicaddr/) w
 pip install publicaddr
 ```
 
-## Default lookup
+## Lookup for IPv4 and IPv6
 
 Lookup for your public IPs from random providers with DNS or HTTP protocols with 3 retries if no ips are returned.
 This is the default behaviour of the `lookup` function.

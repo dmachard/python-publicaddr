@@ -40,7 +40,7 @@ def lookup(providers=constants.ALL, retries=None, timeout=None, ip=None):
 
         if provider["mode"] == constants.HTTPS and cfg["https_enabled"]:
             insecure = False
-            ipv6_support = True
+            ipv6_support = cfg["ipv6_enabled"]
             pattern = provider["pattern"] if "pattern" in provider else None
 
             if "insecure" in provider:
@@ -73,7 +73,7 @@ def lookup(providers=constants.ALL, retries=None, timeout=None, ip=None):
                                                     dnsclass=dnsclass, qtype=qtype,
                                                     timeout=cfg["timeout"], pattern=pattern)
 
-        if provider["mode"] == constants.STUN and cfg["strun_enabled"]:
+        if provider["mode"] == constants.STUN and cfg["stun_enabled"]:
             if ip == constants.IPv4 or ip == None:
                 addrs["ip4"] = handlers.lookup_stun(host=provider["host"], port=provider["port"], 
                                                     ipversion=constants.IPv4,
@@ -133,17 +133,22 @@ def get(provider="google", proto=constants.DNS, ip=constants.IPv4, timeout=None)
     start = time.perf_counter()
     addr = {}
 
-    if _provider["mode"] == constants.HTTPS:
+    if ip == constants.IPv6 and not cfg["ipv6_enabled"]:
+        addr["ip"] = None
+        addr["duration"] = "0"
+        return addr
+
+    if _provider["mode"] == constants.HTTPS and cfg["https_enabled"]:
         insecure = _provider["insecure"] if "insecure" in _provider else False
         pattern = _provider["pattern"] if "pattern" in _provider else None
-        ipv6_support = True
+        ipv6_support = cfg["ipv6_enabled"]
         if "ipv6_support" in _provider:
             ipv6_support = bool(_provider["ipv6_support"] )
         addr["ip"] = handlers.lookup_http(url=_provider["url"], ipversion=ip,
                                           timeout=cfg["timeout"], insecure=insecure,
                                           pattern=pattern, ipv6_support=ipv6_support)
 
-    if _provider["mode"] == constants.DNS:
+    if _provider["mode"] == constants.DNS and cfg["dns_enabled"]:
         dnsclass = _provider["class"] if "class" in _provider else "IN"
         qtype = _provider["qtype"] if "qtype" in _provider else None
         pattern = _provider["pattern"] if "pattern" in _provider else None
@@ -154,7 +159,7 @@ def get(provider="google", proto=constants.DNS, ip=constants.IPv4, timeout=None)
         addr["ip"] = dns_handler(nameservers=_provider["nameservers"], lookup=_provider["lookup"],
                                  dnsclass=dnsclass, qtype=qtype, timeout=cfg["timeout"], pattern=pattern)
 
-    if _provider["mode"] == constants.STUN:
+    if _provider["mode"] == constants.STUN and cfg["stun_enabled"]:
         addr["ip"] = handlers.lookup_stun(host=_provider["host"], port=_provider["port"], ipversion=ip, 
                                           transport=_provider["transport"], timeout=cfg["timeout"])
 

@@ -10,11 +10,11 @@ on:
       
 jobs:
   publicaddr:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        python: [ "3.10", "3.11", "3.12", "3.13" ]
+        python: [ "3.11", "3.12", "3.13" ]
 
     steps:
     - uses: actions/checkout@v4
@@ -26,9 +26,11 @@ jobs:
       run: |
         python --version
         python -m pip install -r requirements.txt
-        python -m unittest tests.test_google
-        python -m unittest tests.test_akamai
-        python -m unittest tests.test_cloudflare
-        python -m unittest tests.test_opendns
+        python -m unittest tests.test_google -v
+        python -m unittest tests.test_akamai -v
+        python -m unittest tests.test_cloudflare -v
+        python -m unittest tests.test_opendns -v
+        python -m unittest tests.test_ipify -v
+        python -m unittest tests.test_icanhazip -v
       env:
         PUBLICADDR_IPV6_ENABLED: 0
