@@ -5,6 +5,7 @@ import time
 import pkgutil
 import yaml
 import re
+import os
 
 from publicaddr import constants
 from publicaddr.constants import *
@@ -37,7 +38,7 @@ def lookup(providers=constants.ALL, retries=None, timeout=None, ip=None):
             logging.error("fetch invalid providers - %s" % providers)
             return addrs
 
-        if provider["mode"] == constants.HTTPS:
+        if provider["mode"] == constants.HTTPS and cfg["https_enabled"]:
             insecure = False
             ipv6_support = True
             pattern = provider["pattern"] if "pattern" in provider else None
@@ -51,12 +52,12 @@ def lookup(providers=constants.ALL, retries=None, timeout=None, ip=None):
                 addrs["ip4"] = handlers.lookup_http(url=provider["url"], ipversion=constants.IPv4,
                                                     timeout=cfg["timeout"], insecure=insecure,
                                                     pattern=pattern, ipv6_support=ipv6_support)
-            if ip == constants.IPv6 or ip == None:
+            if (ip == constants.IPv6 or ip == None ) and cfg["ipv6_enabled"]:
                 addrs["ip6"] = handlers.lookup_http(url=provider["url"], ipversion=constants.IPv6,
                                                     timeout=cfg["timeout"], insecure=insecure,
                                                     pattern=pattern, ipv6_support=ipv6_support)
 
-        if provider["mode"] == constants.DNS:
+        if provider["mode"] == constants.DNS and cfg["dns_enabled"]:
             dnsclass = provider["class"] if "class" in provider else "IN"
             qtype = provider["qtype"] if "qtype" in provider else None
             pattern = provider["pattern"] if "pattern" in provider else None
@@ -66,19 +67,19 @@ def lookup(providers=constants.ALL, retries=None, timeout=None, ip=None):
                                                     lookup=provider["lookup"],
                                                     dnsclass=dnsclass, qtype=qtype,
                                                     timeout=cfg["timeout"], pattern=pattern)
-            if ip == constants.IPv6 or ip == None:
+            if (ip == constants.IPv6 or ip == None)  and cfg["ipv6_enabled"]:
                 addrs["ip6"] = handlers.lookup_dns_v6(nameservers=provider["nameservers"],
                                                     lookup=provider["lookup"],
                                                     dnsclass=dnsclass, qtype=qtype,
                                                     timeout=cfg["timeout"], pattern=pattern)
 
-        if provider["mode"] == constants.STUN:
+        if provider["mode"] == constants.STUN and cfg["strun_enabled"]:
             if ip == constants.IPv4 or ip == None:
                 addrs["ip4"] = handlers.lookup_stun(host=provider["host"], port=provider["port"], 
                                                     ipversion=constants.IPv4,
                                                     transport=provider["transport"],
                                                     timeout=cfg["timeout"])
-            if ip == constants.IPv6 or ip == None:
+            if (ip == constants.IPv6 or ip == None) and cfg["ipv6_enabled"]:
                 addrs["ip6"] = handlers.lookup_stun(host=provider["host"], port=provider["port"], 
                                                     ipversion=constants.IPv6,
                                                     transport=provider["transport"],
@@ -169,6 +170,29 @@ def load_cfg():
         cfg =  yaml.safe_load(conf) 
     except Exception as e:
         logging.error("invalid default config: %s" % e)
+
+    # load from env
+    debug_env = os.getenv('PUBLICADDR_DEBUG')
+    if debug_env is not None: cfg["debug"] = bool( int(debug_env) )
+
+    timeout_env = os.getenv('PUBLICADDR_TIMEOUT')
+    if timeout_env is not None: cfg["timeout"] = int(timeout_env)
+
+    retries_env = os.getenv('PUBLICADDR_RETRIES')
+    if retries_env is not None: cfg["retries"] = int(retries_env)
+
+    https_enable_env = os.getenv('PUBLICADDR_LOOKUP_HTTPS')
+    if https_enable_env is not None: cfg["https_enabled"] = bool(int(https_enable_env))
+
+    dns_enable_env = os.getenv('PUBLICADDR_LOOKUP_DNS')
+    if dns_enable_env is not None: cfg["dns_enabled"] = bool(int(dns_enable_env))
+
+    stun_enable_env = os.getenv('PUBLICADDR_LOOKUP_STUN')
+    if stun_enable_env is not None: cfg["stun_enabled"] = bool(int(stun_enable_env))
+
+    ipv6_enable_env = os.getenv('PUBLICADDR_IPV6_ENABLED')
+    if ipv6_enable_env is not None: cfg["ipv6_enabled"] = bool(int(ipv6_enable_env))
+
     return cfg
 
 def init():

@@ -1,15 +1,16 @@
 debug: false
 timeout: 2
 retries: 3
+ipv6_enabled: true
+https_enabled: true
+stun_enabled: true
+dns_enabled: true
 
 providers:
   https:
     - name: akamai
       url: https://ds.whatismyip.akamai.com/
       insecure: true
-
-    - name: google
-      url: https://domains.google.com/checkip
 
     - name: icanhazip
       url: https://icanhazip.com/
@@ -21,12 +22,16 @@ providers:
       url: https://www.cloudflare.com/cdn-cgi/trace
       pattern: ip=(.*)\n
 
+    - name: ifconfig_me
+      url: http://ifconfig.me/ip
+      
+    # - name: amazon
+    #   url: https://checkip.amazonaws.com/
+    #   ipv6_support: false
+
     # - name: mullvad
     #   url: https://am.i.mullvad.net/ip
     #   ipv6_support: false
-
-    - name: ifconfig_me
-      url: http://ifconfig.me/ip
 
   dns:
     - name: akamai

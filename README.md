@@ -6,17 +6,19 @@
 
 Simple python module for getting your **public IP V4 and V6** from several providers in **random** mode with also several protocols (DNS, HTTPS and STUN).
 
-Supported providers with IPv4 and IPv6:
+Supported providers
 
-- [x] Google (DNS & HTTP & STUN)
-- [x] Cloudflare (DNS & HTTP)
-- [x] OpenDNS (DNS)
-- [x] Akamai (DNS & HTTP)
-- [x] [Ipify](https://www.ipify.org/) (HTTP)
-- [x] Icanhazip (HTTP)
-- [x] [Matrix](https://www.matrix.org) (STUN)
-- [x] [Framasoft](https://framasoft.org/) (STUN)
-- [x] [Ifconfig.me](https://ifconfig.me/) (HTTP)
+| IP Checker   | HTTPS | STUN | DNS | IPv4 | IPv6 | Use Policy                                     |
+|--------------|-------|------|-----|------|------|------------------------------------------------|
+| google       |  ❌   |   ✔️  |  ✔️  |  ✔️   |  ✔️   |                                                |
+| cloudflare   |  ✔️    |  ❌  |  ✔️  |  ✔️   |  ✔️   |                                                |
+| openDNS      |  ❌   |  ❌  |  ✔️  |  ✔️   |  ✔️   |                                                |
+| akamai       |  ✔️    |  ❌  |  ✔️  |  ✔️   |  ✔️   |                                                |
+| ipify        |  ✔️    |  ❌  |  ❌ |  ✔️   |  ✔️   |                                                |
+| icanhazip    |  ✔️    |  ❌  |  ❌ |  ✔️   |  ✔️   |                                                |
+| matrix       |  ❌   |  ✔️   |  ❌ |  ✔️   |  ✔️   |                                                |
+| framasoft    |  ❌   |  ✔️   |  ❌ |  ✔️   |  ✔️   |                                                |
+| ifconfig.me  |  ✔️   |  ❌   |  ❌ |  ✔️   |  ✔️   |                                                |
 
 ## Installation
 
@@ -28,7 +30,7 @@ This module can be installed from [pypi](https://pypi.org/project/publicaddr/) w
 pip install publicaddr
 ```
 
-## Lookup for IPv4 and v6
+## Default lookup
 
 Lookup for your public IPs from random providers with DNS or HTTP protocols with 3 retries if no ips are returned.
 This is the default behaviour of the `lookup` function.
@@ -41,7 +43,23 @@ publicaddr.lookup()
 'proto': 'dns', 'duration': '0.037'}
 ```
 
-## Lookup for public IP with specific protocol
+## Configuration
+
+This module can be configurated with environment variables
+| Variables | Description |
+| ------------- | ------------- |
+| PUBLICADDR_DEBUG | debug mode 1 or 0 |
+| PUBLICADDR_TIMEOUT | timeout, default is 2s |
+| PUBLICADDR_RETRIES | retries, default is 3|
+| PUBLICADDR_IPV6_ENABLED | enable ipv6 with 1 or 0 to disable |
+| PUBLICADDR_LOOKUP_HTTPS | lookup with HTTPS protocol  (1 or 0 to disable) |
+| PUBLICADDR_LOOKUP_DNS | lookup with DNS protocol  (1 or 0 to disable) |
+| PUBLICADDR_LOOKUP_STUN | lookup with STUN protocol  (1 or 0 to disable) |
+
+
+## Specific lookups
+
+### Lookup for public IP with specific protocol
 
 Lookup for your public IPs from random DNS providers with specific protocol.
 
@@ -59,7 +77,7 @@ Default constants for transport protocol:
 - `publicaddr.DNS`
 - `publicaddr.STUN`
 
-## Get IPv4 or IPv6 only
+### Get IPv4 or IPv6 only
 
 Get your public IPv4 with default provider (Google with DNS protocol).
 
@@ -75,7 +93,7 @@ Default constants for IP version:
 - `publicaddr.IPv4`
 - `publicaddr.IPv6`
 
-## Get IP with specific provider
+### Get IP with specific provider
 
 Example to use the provider Cloudflare instead of the default one.
 
@@ -96,12 +114,7 @@ Default constants for providers:
 - `publicaddr.ICANHAZIP`
 - `publicaddr.MATRIX`
 - `publicaddr.FRAMASOFT`
-- `publicaddr.MULLVAD` *(disabled by default in config because IPv6 is not supported)*
 - `publicaddr.IFCONFIG_ME`
-
-## Custom configuration
-
-See the default [configuration file](../main/publicaddr/publicaddr.yml)
 
 ## For developpers
 
@@ -117,6 +130,10 @@ source venv/bin/activate
 python3 -m pip install -r requirements.txt
 python3 example.py
 ```
+
+### Custom configuration
+
+See the default [configuration file](../main/publicaddr/publicaddr.yml)
 
 ### Run test units
 
