@@ -12,6 +12,8 @@ import dns.exception
 
 from publicaddr import constants
 
+import checkifvalid
+
 # Suppress only the single warning from urllib3 needed.
 from urllib3.exceptions import InsecureRequestWarning
 
@@ -38,7 +40,13 @@ def lookup_http(url, ipversion, timeout, insecure, pattern, ipv6_support):
         if pattern is not None:
             match = re.search(pattern, ip)
             if match:
-                return match.group(1)
+                ip = match.group(1)
+            
+        # valid ip returned ?
+        if not checkifvalid.ipv4_address(ip) and not checkifvalid.ipv6_address(ip):
+            raise Exception("invalid IP returned: %s", ip)
+            return None
+
     except requests.exceptions.RequestException as e:
         logging.error("[http] - %s" % e)
     return ip
@@ -69,6 +77,12 @@ def lookup_stun(host, port, ipversion, transport, timeout):
 
         mapped_addr = asyncio.run(_lookup_stun(host, port, family, transport, timeout))
         ip = mapped_addr["ip"]
+
+        # valid ip returned ?
+        if not checkifvalid.ipv4_address(ip) and not checkifvalid.ipv6_address(ip):
+            raise Exception("invalid IP returned: %s", ip)
+            return None
+        
     except Exception as e:
         logging.error("[stun] - %s" % e)
     return ip
@@ -130,6 +144,11 @@ def lookup_dns(nameservers, lookup, qtype, dnsclass, timeout, pattern):
         ip = _resolv_addr(nameservers=nameservers, qname=lookup, 
                           rdtype=qtype, rdclass=dnsclass,
                           timeout=timeout, pattern=pattern)
+        
+        # valid ip returned ?
+        if not checkifvalid.ipv4_address(ip) and not checkifvalid.ipv6_address(ip):
+            raise Exception("invalid IP returned: %s", ip)
+            return None
     except dns.exception.DNSException as e:
         logging.error("[dns] - %s" % e)
     return ip
