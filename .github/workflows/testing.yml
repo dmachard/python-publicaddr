@@ -32,5 +32,8 @@ jobs:
         python -m unittest tests.test_opendns -v
         python -m unittest tests.test_ipify -v
         python -m unittest tests.test_icanhazip -v
+        python -m unittest tests.test_ifconfigme -v
+        python -m unittest tests.test_matrix -v
+        python -m unittest tests.test_framasoft -v
       env:
         PUBLICADDR_IPV6_ENABLED: 0

@@ -24,14 +24,6 @@ providers:
 
     - name: ifconfig_me
       url: http://ifconfig.me/ip
-      
-    # - name: amazon
-    #   url: https://checkip.amazonaws.com/
-    #   ipv6_support: false
-
-    # - name: mullvad
-    #   url: https://am.i.mullvad.net/ip
-    #   ipv6_support: false
 
   dns:
     - name: akamai
